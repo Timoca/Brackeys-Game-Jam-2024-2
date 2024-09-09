@@ -195,6 +195,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &4016081591387575534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3690533109317946020}
+  m_Layer: 0
+  m_Name: ItemLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3690533109317946020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016081591387575534}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8033935029540474229}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7398760610872995146
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,8 +236,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8033935029540474229}
   - component: {fileID: 7648030241997456986}
+  - component: {fileID: 2014565942939603914}
   - component: {fileID: 346162003812180908}
   - component: {fileID: 6894222308547298622}
+  - component: {fileID: 5330131349429664786}
   - component: {fileID: 9055224330984974743}
   m_Layer: 0
   m_Name: Player
@@ -229,6 +262,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3901902528383556729}
+  - {fileID: 3690533109317946020}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7648030241997456986
@@ -245,7 +279,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputActionAsset: {fileID: -944628639613478452, guid: 0e00b8f62fb620747bcd127e0733a750, type: 3}
   moveSpeed: 7
-  jumpForce: 10
+  jumpForce: 90
+--- !u!114 &2014565942939603914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7398760610872995146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71657f30acc69f846890b223e8560b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Collectibles:
+  - Berry
+  - Hazelnut
 --- !u!54 &346162003812180908
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -254,7 +303,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7398760610872995146}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -295,6 +344,27 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &5330131349429664786
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7398760610872995146}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &9055224330984974743
 MonoBehaviour:
