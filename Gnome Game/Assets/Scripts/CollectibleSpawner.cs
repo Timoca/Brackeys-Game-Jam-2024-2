@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CollectibleSpawner : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> collectiblePrefabs;
+    public List<Collectible> collectibles;
     [SerializeField] private float spawnHeight = 10f;
     [SerializeField] private Vector2 spawnRange = new Vector2(-10f, 10f);
     [SerializeField] private float spawnInterval = 1.0f;
@@ -21,7 +21,7 @@ public class CollectibleSpawner : MonoBehaviour
             float randomZ = Random.Range(spawnRange.x, spawnRange.y);
 
             Vector3 spawnPosition = new Vector3(0, spawnHeight, randomZ);
-            GameObject CollectibleToSpawn = collectiblePrefabs[Random.Range(0, collectiblePrefabs.Count)];
+            GameObject CollectibleToSpawn = collectibles[Random.Range(0, collectibles.Count)].prefab;
             // Spawn het collectible object
             Instantiate(CollectibleToSpawn, spawnPosition, Quaternion.identity);
             yield return new WaitForSeconds(spawnInterval);

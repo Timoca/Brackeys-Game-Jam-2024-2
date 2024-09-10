@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
             velocity.z = 0;
         }
 
-        rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
+        rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, velocity.z);
     }
 
     private void Jump()

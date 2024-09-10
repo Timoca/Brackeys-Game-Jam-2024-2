@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e68ff4dbdff1800428c07b943c23f362, type: 3}
+  m_Name: Hazelnut
+  m_EditorClassIdentifier: 
+  objectName: Hazelnut
+  prefab: {fileID: 5364686138692857134, guid: c06c9a48a7be4a542bd5c9a9a491ee45, type: 3}
+  objectTag: Hazelnut
+  score: 2

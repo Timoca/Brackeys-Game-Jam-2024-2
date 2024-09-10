@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a4f94ef37cbe2674ea8c4aae5da8295a, type: 2}
+  - {fileID: 2100000, guid: 88a9c4fb76d02384c90a1fdf7048290c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -120,8 +120,8 @@ GameObject:
   - component: {fileID: 202072341428579411}
   - component: {fileID: 2271540575384034599}
   m_Layer: 0
-  m_Name: Berry
-  m_TagString: Berry
+  m_Name: Hazelnut
+  m_TagString: Hazelnut
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

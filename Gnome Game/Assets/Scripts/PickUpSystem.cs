@@ -6,10 +6,10 @@ using UnityEngine.InputSystem;
 
 public class PickUpSystem : MonoBehaviour
 {
-    [SerializeField] List<string> Collectibles;
     [SerializeField] float throwingPower = 10f;
     [SerializeField] float pickUpCooldown = 1.0f;
     private PlayerMovement _playerMovement;
+    private CollectibleSpawner _collectibleSpawner;
     private InputActionAsset inputActionAsset;
     private InputAction _throwAction;
     private Transform _itemLocation;
@@ -22,6 +22,8 @@ public class PickUpSystem : MonoBehaviour
 
     private void Start()
     {
+        _collectibleSpawner = FindAnyObjectByType<CollectibleSpawner>();
+
         _playerMovement = GetComponent<PlayerMovement>();
         inputActionAsset = _playerMovement.inputActionAsset;
 
@@ -52,14 +54,17 @@ public class PickUpSystem : MonoBehaviour
 
     private void PickUpItem(Collider other)
     {
-        if (Collectibles.Contains(other.tag) && _amountOfItemsHolding < 1)
+        foreach (var item in _collectibleSpawner.collectibles)
         {
-            _item = other.gameObject;
-            _item.GetComponent<Collider>().enabled = false;
-            _item.GetComponent<Rigidbody>().isKinematic = true;
-            _item.transform.SetParent(_itemLocation);
-            _item.transform.position = _itemLocation.position;
-            _amountOfItemsHolding++;
+            if (item.objectTag == other.tag && _amountOfItemsHolding < 1)
+            {
+                _item = other.gameObject;
+                _item.GetComponent<Collider>().enabled = false;
+                _item.GetComponent<Rigidbody>().isKinematic = true;
+                _item.transform.SetParent(_itemLocation);
+                _item.transform.position = _itemLocation.position;
+                _amountOfItemsHolding++;
+            }
         }
     }
     private void ThrowItem()
