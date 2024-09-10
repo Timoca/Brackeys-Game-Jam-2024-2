@@ -4,9 +4,11 @@ using UnityEngine;
 public class ScoreSystem : MonoBehaviour
 {
     public int score = 0;
-    private List<int> highScores = new List<int>();
+    public List<int> highScores = new List<int>();
 
     private const int maxHighScores = 5;
+
+    private bool _hasUpdatedHighScores = false;
 
     void Start()
     {
@@ -20,25 +22,30 @@ public class ScoreSystem : MonoBehaviour
 
     public void SaveHighScore()
     {
-        // Voeg de huidige score toe aan de lijst met highscores
-        highScores.Add(score);
-
-        // Sorteer de lijst van hoog naar laag
-        highScores.Sort((a, b) => b.CompareTo(a));
-
-        // Zorg ervoor dat alleen de top 5 scores worden bewaard
-        if (highScores.Count > maxHighScores)
+        if (_hasUpdatedHighScores == false)
         {
-            highScores.RemoveAt(maxHighScores); // Verwijder de laagste score als de lijst langer is dan 5
+            // Voeg de huidige score toe aan de lijst met highscores
+            highScores.Add(score);
+
+            // Sorteer de lijst van hoog naar laag
+            highScores.Sort((a, b) => b.CompareTo(a));
+
+            // Zorg ervoor dat alleen de top 5 scores worden bewaard
+            if (highScores.Count > maxHighScores)
+            {
+                highScores.RemoveAt(maxHighScores); // Verwijder de laagste score als de lijst langer is dan 5
+            }
+
+            // Sla de top 5 scores op in PlayerPrefs
+            for (int i = 0; i < highScores.Count; i++)
+            {
+                PlayerPrefs.SetInt("HighScore" + i, highScores[i]);
+            }
+            PlayerPrefs.Save();
+            Debug.Log("Highscores saved");
+            _hasUpdatedHighScores = true;
         }
 
-        // Sla de top 5 scores op in PlayerPrefs
-        for (int i = 0; i < highScores.Count; i++)
-        {
-            PlayerPrefs.SetInt("HighScore" + i, highScores[i]);
-        }
-
-        PlayerPrefs.Save();
     }
 
     private void LoadHighScores()
