@@ -6,6 +6,8 @@ public class GameTimer : MonoBehaviour
     [SerializeField] int lengthOfGame = 60; // Time in seconds
     public int timeRemaining; // Time in seconds
 
+    public bool gameEnded = false;
+
     private ScoreSystem _scoreSystem;
     void Start()
     {
@@ -20,7 +22,6 @@ public class GameTimer : MonoBehaviour
 
         if (timeRemaining <= 0)
         {
-            Debug.Log("Game Over");
             EndGame();
         }
     }
@@ -37,5 +38,6 @@ public class GameTimer : MonoBehaviour
     private void EndGame()
     {
         _scoreSystem.SaveHighScore();
+        gameEnded = true;
     }
 }

@@ -8,9 +8,23 @@ public class CollectibleSpawner : MonoBehaviour
     [SerializeField] private float spawnHeight = 10f;
     [SerializeField] private Vector2 spawnRange = new Vector2(-10f, 10f);
     [SerializeField] private float spawnInterval = 1.0f;
+
+    private GameTimer _gameTimer;
+    private Coroutine _spawnCoroutine;
     void Start()
     {
-        StartCoroutine(SpawnCollectiblesCoroutine());
+        _gameTimer = FindAnyObjectByType<GameTimer>();
+
+        _spawnCoroutine = StartCoroutine(SpawnCollectiblesCoroutine());
+    }
+
+    void Update()
+    {
+        if (_gameTimer.gameEnded && _spawnCoroutine != null)
+        {
+            StopCoroutine(_spawnCoroutine);
+            _spawnCoroutine = null;
+        }
     }
 
     private IEnumerator SpawnCollectiblesCoroutine()

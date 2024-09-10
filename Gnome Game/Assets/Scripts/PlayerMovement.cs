@@ -18,11 +18,14 @@ public class PlayerMovement : MonoBehaviour
     private bool _isGrounded;
 
     private Rigidbody rb;
+    private GameTimer _gameTimer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        _gameTimer = FindAnyObjectByType<GameTimer>();
 
         _moveLeftAction = inputActionAsset.FindActionMap("PlayerMovement").FindAction("Run Left");
         _moveRightAction = inputActionAsset.FindActionMap("PlayerMovement").FindAction("Run Right");
@@ -45,6 +48,11 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (_gameTimer.gameEnded)
+        {
+            return;
+        }
+
         MovePlayer();
 
         if (_Jumping && _isGrounded)
