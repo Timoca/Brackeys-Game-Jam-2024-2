@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameTimer : MonoBehaviour
 {
-    [SerializeField] int lengthOfGame = 60; // Time in seconds
+    public int lengthOfGame = 60; // Time in seconds
     public int timeRemaining; // Time in seconds
 
     public bool gameEnded = false;

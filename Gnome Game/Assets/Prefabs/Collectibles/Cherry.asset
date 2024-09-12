@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e68ff4dbdff1800428c07b943c23f362, type: 3}
-  m_Name: Hazelnut
+  m_Name: Cherry
   m_EditorClassIdentifier: 
-  objectName: Hazelnut
-  prefab: {fileID: 5364686138692857134, guid: c06c9a48a7be4a542bd5c9a9a491ee45, type: 3}
-  objectTag: Hazelnut
+  objectName: Cherry
+  prefab: {fileID: 5364686138692857134, guid: 17b888fc21ba6764eb246772295a90ef, type: 3}
+  objectTag: Cherry
   score: 2
