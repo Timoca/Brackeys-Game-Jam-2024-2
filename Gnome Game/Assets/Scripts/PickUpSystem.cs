@@ -10,6 +10,7 @@ public class PickUpSystem : MonoBehaviour
     [SerializeField] float pickUpCooldown = 1.0f;
     private PlayerMovement _playerMovement;
     private CollectibleSpawner _collectibleSpawner;
+    private GameTimer _gameTimer;
     private InputActionAsset inputActionAsset;
     private InputAction _throwAction;
     private Transform _itemLocation;
@@ -23,6 +24,7 @@ public class PickUpSystem : MonoBehaviour
     private void Start()
     {
         _collectibleSpawner = FindAnyObjectByType<CollectibleSpawner>();
+        _gameTimer = FindAnyObjectByType<GameTimer>();
 
         _playerMovement = GetComponent<PlayerMovement>();
         inputActionAsset = _playerMovement.inputActionAsset;
@@ -40,13 +42,16 @@ public class PickUpSystem : MonoBehaviour
     void Update()
     {
         _Throwing = _throwAction.ReadValue<float>() > 0;
+        if (!_gameTimer.gameEnded)
+        {
+            ThrowItem();
+        }
 
-        ThrowItem();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject != _lastThrownItem)
+        if (other.gameObject != _lastThrownItem && _gameTimer.gameEnded == false)
         {
             PickUpItem(other);
         }

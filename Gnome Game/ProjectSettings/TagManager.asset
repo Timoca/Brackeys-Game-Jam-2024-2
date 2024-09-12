@@ -5,9 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ground
-  - Berry
-  - Hazelnut
   - Acorn
+  - Cherry
+  - Golden Cherry
   layers:
   - Default
   - TransparentFX
