@@ -17,8 +17,11 @@ public class PlayerMovement : MonoBehaviour
     private bool _Jumping;
     private bool _isGrounded;
 
+    private bool _isCheering = false;
+
     private Rigidbody rb;
     private GameTimer _gameTimer;
+    private Animator _animator;
 
     void Start()
     {
@@ -26,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
 
         _gameTimer = FindAnyObjectByType<GameTimer>();
+        _animator = GetComponentInChildren<Animator>();
 
         _moveLeftAction = inputActionAsset.FindActionMap("PlayerMovement").FindAction("Run Left");
         _moveRightAction = inputActionAsset.FindActionMap("PlayerMovement").FindAction("Run Right");
@@ -50,6 +54,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_gameTimer.gameEnded)
         {
+            _animator.SetBool("isRunning", false);
+            if (!_isCheering)
+            {
+                _isCheering = true;
+                _animator.SetBool("isCheering", true);
+            }
             return;
         }
 
@@ -68,14 +78,17 @@ public class PlayerMovement : MonoBehaviour
         if (_RunningLeft)
         {
             velocity.z = -moveSpeed;
+            _animator.SetBool("isRunning", true);
         }
         else if (_RunningRight)
         {
             velocity.z = moveSpeed;
+            _animator.SetBool("isRunning", true);
         }
         else
         {
             velocity.z = 0;
+            _animator.SetBool("isRunning", false);
         }
 
         rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, velocity.z);

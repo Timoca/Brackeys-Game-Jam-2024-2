@@ -108,6 +108,17 @@
                     "action": "Throw Item",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e82b0d9c-b0ed-44a5-9b8b-d5067d81d1b0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Throw Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
