@@ -5334,7 +5334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7046d93ef41c70a44b6550cb66b43ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wobbleIntensity: 0.2
+  wobbleIntensity: 1
   wobbleSpeed: 1
 --- !u!1 &350919942
 GameObject:

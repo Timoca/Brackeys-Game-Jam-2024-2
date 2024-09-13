@@ -7,7 +7,7 @@ public class CollectibleSpawner : MonoBehaviour
     public List<Collectible> collectibles;
     [SerializeField] private float spawnHeight = 10f;
     [SerializeField] private Vector2 spawnRange = new Vector2(-10f, 10f);
-    [SerializeField] private float spawnInterval = 1.0f;
+    public float spawnInterval = 1.0f;
 
     private GameTimer _gameTimer;
     private Coroutine _spawnCoroutine;

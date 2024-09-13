@@ -10,14 +10,17 @@ public class WeatherSystem : MonoBehaviour
     [SerializeField] ParticleSystem _windParticlesFront;
     [SerializeField] RawImage _backgroundDimmer;
     [SerializeField] Light _pointLight;
+    [SerializeField] Light _lightningLight;
     private GameTimer _gameTimer;
     private CameraMovement _cameraMovement;
+    private CollectibleSpawner _collectibleSpawner;
     private int _faseLength;
     private float _elapsedTime = 0f;
     void Start()
     {
         _gameTimer = FindAnyObjectByType<GameTimer>();
         _cameraMovement = FindAnyObjectByType<CameraMovement>();
+        _collectibleSpawner = GetComponent<CollectibleSpawner>();
 
         _faseLength = _gameTimer.lengthOfGame / 3;
         StartCoroutine(StartStormyWeather());
@@ -72,13 +75,17 @@ public class WeatherSystem : MonoBehaviour
                 break;
             case 1:
                 Debug.Log("Fase 2: Heavy rain");
-                //StartCoroutine(SmoothWobbleTransition(0.3f, 1.2f));
-                IncreaseWind(5);
+                StartCoroutine(SmoothWobbleTransition(2f, 2f));
+                StartCoroutine(IncreaseWindOverTime(10));
+                StartCoroutine(IncreaseDropRate(0.5f, 2f));
+                StartCoroutine(LightningEffect(1f));
                 break;
             case 2:
                 Debug.Log("Fase 3: Thunderstorm");
-                //StartCoroutine(SmoothWobbleTransition(0.5f, 1.6f));
-                IncreaseWind(10);
+                StartCoroutine(SmoothWobbleTransition(3f, 2f));
+                StartCoroutine(IncreaseWindOverTime(20));
+                StartCoroutine(IncreaseDropRate(0.1f, 2f));
+                StartCoroutine(LightningEffect(2f));
                 break;
         }
     }
@@ -110,12 +117,75 @@ public class WeatherSystem : MonoBehaviour
         _cameraMovement.wobbleSpeed = targetSpeed;
     }
 
-    private void IncreaseWind(int simulationSpeed)
-    {
-        var mainBack = _windParticlesBack.main;
-        mainBack.simulationSpeed = simulationSpeed;
 
-        var mainFront = _windParticlesFront.main;
-        mainFront.simulationSpeed = simulationSpeed;
+    private IEnumerator IncreaseWindOverTime(int targetSpeed)
+    {
+        float duration = _gameTimer.lengthOfGame / 3;
+
+        // Huidige windsnelheid opslaan
+        float startSpeedFront = _windParticlesFront.main.simulationSpeed;
+        float startSpeedBack = _windParticlesBack.main.simulationSpeed;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float lerpFactor = elapsedTime / duration;  // Tussen 0 en 1 gedurende de fase
+
+            // Interpoleer de wind snelheid
+            var mainBack = _windParticlesBack.main;
+            mainBack.simulationSpeed = Mathf.Lerp(startSpeedBack, targetSpeed, lerpFactor);
+
+            var mainFront = _windParticlesFront.main;
+            mainFront.simulationSpeed = Mathf.Lerp(startSpeedFront, targetSpeed, lerpFactor);
+
+            yield return null;  // Wacht op de volgende frame
+        }
+
+        // Zorg dat de snelheid precies op de doelwaarde eindigt
+        var finalMainBack = _windParticlesBack.main;
+        finalMainBack.simulationSpeed = targetSpeed;
+
+        var finalMainFront = _windParticlesFront.main;
+        finalMainFront.simulationSpeed = targetSpeed;
     }
+
+    private IEnumerator IncreaseDropRate(float temporaryDropRate, float duration)
+    {
+        float currentDropRate = _collectibleSpawner.spawnInterval;
+        _collectibleSpawner.spawnInterval = temporaryDropRate;
+        yield return new WaitForSeconds(duration);
+        _collectibleSpawner.spawnInterval = currentDropRate;
+    }
+
+    private IEnumerator LightningEffect(float duration)
+    {
+        float elapsedTime = 0f;
+
+        // Zorg dat het licht uit staat voordat de coroutine start
+        _lightningLight.enabled = false;
+
+        while (elapsedTime < duration)
+        {
+            // Wacht een willekeurige tijd voordat de volgende flits plaatsvindt
+            float waitTime = Random.Range(0.1f, 0.5f);
+            yield return new WaitForSeconds(waitTime);
+
+            // Simuleer de bliksemflits door het licht kort in te schakelen
+            float flashDuration = Random.Range(0.1f, 0.3f); // Duur van de flits
+
+            _lightningLight.enabled = true;  // Zet het licht aan
+
+            yield return new WaitForSeconds(flashDuration);  // Wacht de duur van de flits
+
+            _lightningLight.enabled = false;  // Zet het licht weer uit
+
+            elapsedTime += waitTime + flashDuration;
+        }
+
+        // Zorg dat het licht uit staat als de coroutine is afgelopen
+        _lightningLight.enabled = false;
+    }
+
 }

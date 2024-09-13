@@ -37,7 +37,13 @@ public class GameTimer : MonoBehaviour
 
     private void EndGame()
     {
-        _scoreSystem.SaveHighScore();
+        StartCoroutine(SaveHighScore());
         gameEnded = true;
+    }
+
+    private IEnumerator SaveHighScore()
+    {
+        yield return new WaitForSeconds(1.5f);
+        _scoreSystem.SaveHighScore();
     }
 }

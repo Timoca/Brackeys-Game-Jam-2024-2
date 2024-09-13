@@ -19,13 +19,15 @@ public class CameraMovement : MonoBehaviour
     {
         wobbleTime += Time.deltaTime * wobbleSpeed;
 
-        float wobbleZPos = Mathf.Sin(wobbleTime) * wobbleIntensity;
-        float wobbleZRot = Mathf.Sin(wobbleTime * 1.5f) * wobbleIntensity;
+        float swingZ = Mathf.Sin(wobbleTime * 0.5f) * (wobbleIntensity * 0.5f);
 
-        // Pas de Z-positie van de camera aan (alleen Z-as)
-        transform.localPosition = new Vector3(originalPosition.x, originalPosition.y, originalPosition.z + wobbleZPos);
+        transform.localRotation = originalRotation * Quaternion.Euler(0, 0, swingZ);
 
-        // Pas de Z-rotatie van de camera aan
-        transform.localRotation = originalRotation * Quaternion.Euler(0, 0, wobbleZRot);
+        float cameraOffsetZ = Mathf.Sin(wobbleTime * 0.5f) * (wobbleIntensity * 0.5f);
+
+        transform.localPosition = new Vector3(
+                originalPosition.x,
+                originalPosition.y,
+                originalPosition.z + -cameraOffsetZ);
     }
 }
