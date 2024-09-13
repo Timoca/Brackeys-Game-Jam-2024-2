@@ -11,6 +11,7 @@ public class PickUpSystem : MonoBehaviour
     private PlayerMovement _playerMovement;
     private CollectibleSpawner _collectibleSpawner;
     private GameTimer _gameTimer;
+    private Animator _animator;
     private InputActionAsset inputActionAsset;
     private InputAction _throwAction;
     private Transform _itemLocation;
@@ -25,6 +26,7 @@ public class PickUpSystem : MonoBehaviour
     {
         _collectibleSpawner = FindAnyObjectByType<CollectibleSpawner>();
         _gameTimer = FindAnyObjectByType<GameTimer>();
+        _animator = GetComponentInChildren<Animator>();
 
         _playerMovement = GetComponent<PlayerMovement>();
         inputActionAsset = _playerMovement.inputActionAsset;
@@ -45,6 +47,14 @@ public class PickUpSystem : MonoBehaviour
         if (!_gameTimer.gameEnded)
         {
             ThrowItem();
+        }
+        else
+        {
+            if (_item != null)
+            {
+                _item.SetActive(false);
+                _animator.SetBool("isCarrying", false);
+            }
         }
 
     }
@@ -68,6 +78,9 @@ public class PickUpSystem : MonoBehaviour
                 _item.GetComponent<Rigidbody>().isKinematic = true;
                 _item.transform.SetParent(_itemLocation);
                 _item.transform.position = _itemLocation.position;
+
+                _animator.SetBool("isCarrying", true);
+
                 _amountOfItemsHolding++;
             }
         }
@@ -84,6 +97,8 @@ public class PickUpSystem : MonoBehaviour
 
             _lastThrownItem = _item;
             StartCoroutine(PickUpCooldown());
+
+            _animator.SetBool("isCarrying", false);
 
             _item = null;
             _amountOfItemsHolding--;

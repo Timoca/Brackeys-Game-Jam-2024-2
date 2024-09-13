@@ -54,12 +54,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_gameTimer.gameEnded)
         {
-            _animator.SetBool("isRunning", false);
-            if (!_isCheering)
-            {
-                _isCheering = true;
-                _animator.SetBool("isCheering", true);
-            }
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+            _animator.SetBool("isCheering", true);
             return;
         }
 
