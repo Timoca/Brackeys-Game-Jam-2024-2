@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GameTimer : MonoBehaviour
 {
+    [SerializeField] Canvas _gameOverCanvas;
     public int lengthOfGame = 60; // Time in seconds
     public int timeRemaining; // Time in seconds
 
@@ -38,6 +39,7 @@ public class GameTimer : MonoBehaviour
     private void EndGame()
     {
         StartCoroutine(SaveHighScore());
+        _gameOverCanvas.gameObject.SetActive(true);
         gameEnded = true;
     }
 

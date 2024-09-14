@@ -14,7 +14,8 @@ public class WeatherSystem : MonoBehaviour
     private GameTimer _gameTimer;
     private CameraMovement _cameraMovement;
     private CollectibleSpawner _collectibleSpawner;
-    private int _faseLength;
+    private int _phaseLength;
+    private bool _lightningStarted = false;
     private float _elapsedTime = 0f;
     void Start()
     {
@@ -22,7 +23,7 @@ public class WeatherSystem : MonoBehaviour
         _cameraMovement = FindAnyObjectByType<CameraMovement>();
         _collectibleSpawner = GetComponent<CollectibleSpawner>();
 
-        _faseLength = _gameTimer.lengthOfGame / 3;
+        _phaseLength = _gameTimer.lengthOfGame / 3;
         StartCoroutine(StartStormyWeather());
     }
 
@@ -30,6 +31,11 @@ public class WeatherSystem : MonoBehaviour
     {
         IncreaseDarkness();
 
+        if (_gameTimer.gameEnded && !_lightningStarted)
+        {
+            StartCoroutine(LightningEffect(3f));
+            _lightningStarted = true;
+        }
     }
 
     private void IncreaseDarkness()
@@ -61,27 +67,27 @@ public class WeatherSystem : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             IncreaseStorm(i);
-            yield return new WaitForSeconds(_faseLength);
+            yield return new WaitForSeconds(_phaseLength);
         }
     }
 
-    private void IncreaseStorm(int fase)
+    private void IncreaseStorm(int phase)
     {
         // Increase storm intensity
-        switch (fase)
+        switch (phase)
         {
             case 0:
-                Debug.Log("Fase 1: Light rain");
+                Debug.Log("Phase 1: Light rain");
                 break;
             case 1:
-                Debug.Log("Fase 2: Heavy rain");
+                Debug.Log("Phase 2: Heavy rain");
                 StartCoroutine(SmoothWobbleTransition(2f, 2f));
                 StartCoroutine(IncreaseWindOverTime(10));
                 StartCoroutine(IncreaseDropRate(0.5f, 2f));
                 StartCoroutine(LightningEffect(1f));
                 break;
             case 2:
-                Debug.Log("Fase 3: Thunderstorm");
+                Debug.Log("Phase 3: Thunderstorm");
                 StartCoroutine(SmoothWobbleTransition(3f, 2f));
                 StartCoroutine(IncreaseWindOverTime(20));
                 StartCoroutine(IncreaseDropRate(0.1f, 2f));
@@ -94,25 +100,25 @@ public class WeatherSystem : MonoBehaviour
     {
         float transitionDuration = 5.0f;
 
-        // Huidige waarden opslaan
+        // Save current values
         float startIntensity = _cameraMovement.wobbleIntensity;
         float startSpeed = _cameraMovement.wobbleSpeed;
 
         float elapsedTime = 0;
 
-        // Overgang uitvoeren
+        // Perform transition
         while (elapsedTime < transitionDuration)
         {
             elapsedTime += Time.deltaTime;
 
-            // Lineair interpoleren tussen de huidige en doelwaarden
+            // Linearly interpolate between current and target values
             _cameraMovement.wobbleIntensity = Mathf.Lerp(startIntensity, targetIntensity, elapsedTime / transitionDuration);
             _cameraMovement.wobbleSpeed = Mathf.Lerp(startSpeed, targetSpeed, elapsedTime / transitionDuration);
 
-            yield return null; // Wacht op de volgende frame
+            yield return null; // Wait for the next frame
         }
 
-        // Zorg dat we exact de doelwaarden instellen aan het einde van de overgang
+        // Set exact target values at the end of the transition
         _cameraMovement.wobbleIntensity = targetIntensity;
         _cameraMovement.wobbleSpeed = targetSpeed;
     }
@@ -122,7 +128,7 @@ public class WeatherSystem : MonoBehaviour
     {
         float duration = _gameTimer.lengthOfGame / 3;
 
-        // Huidige windsnelheid opslaan
+        // Save current wind speed
         float startSpeedFront = _windParticlesFront.main.simulationSpeed;
         float startSpeedBack = _windParticlesBack.main.simulationSpeed;
 
@@ -131,19 +137,19 @@ public class WeatherSystem : MonoBehaviour
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            float lerpFactor = elapsedTime / duration;  // Tussen 0 en 1 gedurende de fase
+            float lerpFactor = elapsedTime / duration;  // Between 0 and 1 during the phase
 
-            // Interpoleer de wind snelheid
+            // Interpolate the wind speed
             var mainBack = _windParticlesBack.main;
             mainBack.simulationSpeed = Mathf.Lerp(startSpeedBack, targetSpeed, lerpFactor);
 
             var mainFront = _windParticlesFront.main;
             mainFront.simulationSpeed = Mathf.Lerp(startSpeedFront, targetSpeed, lerpFactor);
 
-            yield return null;  // Wacht op de volgende frame
+            yield return null;  // Wait for the next frame
         }
 
-        // Zorg dat de snelheid precies op de doelwaarde eindigt
+        // Set the speed exactly to the target value
         var finalMainBack = _windParticlesBack.main;
         finalMainBack.simulationSpeed = targetSpeed;
 
@@ -163,29 +169,28 @@ public class WeatherSystem : MonoBehaviour
     {
         float elapsedTime = 0f;
 
-        // Zorg dat het licht uit staat voordat de coroutine start
+        // Make sure the light is off before the coroutine starts
         _lightningLight.enabled = false;
 
         while (elapsedTime < duration)
         {
-            // Wacht een willekeurige tijd voordat de volgende flits plaatsvindt
+            // Wait for a random time before the next flash occurs
             float waitTime = Random.Range(0.1f, 0.5f);
             yield return new WaitForSeconds(waitTime);
 
-            // Simuleer de bliksemflits door het licht kort in te schakelen
-            float flashDuration = Random.Range(0.1f, 0.3f); // Duur van de flits
+            // Simulate the lightning flash by briefly turning on the light
+            float flashDuration = Random.Range(0.1f, 0.3f); // Duration of the flash
 
-            _lightningLight.enabled = true;  // Zet het licht aan
+            _lightningLight.enabled = true;  // Turn on the light
 
-            yield return new WaitForSeconds(flashDuration);  // Wacht de duur van de flits
+            yield return new WaitForSeconds(flashDuration);  // Wait for the flash duration
 
-            _lightningLight.enabled = false;  // Zet het licht weer uit
+            _lightningLight.enabled = false;  // Turn off the light
 
             elapsedTime += waitTime + flashDuration;
         }
 
-        // Zorg dat het licht uit staat als de coroutine is afgelopen
+        // Make sure the light is off when the coroutine is finished
         _lightningLight.enabled = false;
     }
-
 }

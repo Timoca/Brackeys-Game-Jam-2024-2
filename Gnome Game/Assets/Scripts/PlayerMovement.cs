@@ -17,8 +17,6 @@ public class PlayerMovement : MonoBehaviour
     private bool _Jumping;
     private bool _isGrounded;
 
-    private bool _isCheering = false;
-
     private Rigidbody rb;
     private GameTimer _gameTimer;
     private Animator _animator;

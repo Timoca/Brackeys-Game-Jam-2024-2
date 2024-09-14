@@ -24,19 +24,19 @@ public class ScoreSystem : MonoBehaviour
     {
         if (_hasUpdatedHighScores == false)
         {
-            // Voeg de huidige score toe aan de lijst met highscores
+            // Add the current score to the list of high scores
             highScores.Add(score);
 
-            // Sorteer de lijst van hoog naar laag
+            // Sort the list in descending order
             highScores.Sort((a, b) => b.CompareTo(a));
 
-            // Zorg ervoor dat alleen de top 5 scores worden bewaard
+            // Ensure only the top 5 scores are kept
             if (highScores.Count > maxHighScores)
             {
-                highScores.RemoveAt(maxHighScores); // Verwijder de laagste score als de lijst langer is dan 5
+                highScores.RemoveAt(maxHighScores); // Remove the lowest score if the list is longer than 5
             }
 
-            // Sla de top 5 scores op in PlayerPrefs
+            // Save the top 5 scores in PlayerPrefs
             for (int i = 0; i < highScores.Count; i++)
             {
                 PlayerPrefs.SetInt("HighScore" + i, highScores[i]);
@@ -45,7 +45,6 @@ public class ScoreSystem : MonoBehaviour
             Debug.Log("Highscores saved");
             _hasUpdatedHighScores = true;
         }
-
     }
 
     private void LoadHighScores()
