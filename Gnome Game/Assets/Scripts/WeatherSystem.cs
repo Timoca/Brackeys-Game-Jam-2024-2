@@ -14,7 +14,7 @@ public class WeatherSystem : MonoBehaviour
     private GameTimer _gameTimer;
     private CameraMovement _cameraMovement;
     private CollectibleSpawner _collectibleSpawner;
-    private LightningAudio _lightningAudio;
+    private LighningAudio _lightningAudio;
     private int _phaseLength;
     private bool _lightningStarted = false;
     private float _elapsedTime = 0f;
@@ -23,7 +23,7 @@ public class WeatherSystem : MonoBehaviour
         _gameTimer = FindAnyObjectByType<GameTimer>();
         _cameraMovement = FindAnyObjectByType<CameraMovement>();
         _collectibleSpawner = GetComponent<CollectibleSpawner>();
-        _lightningAudio = FindAnyObjectByType<LightningAudio>();
+        _lightningAudio = FindAnyObjectByType<LighningAudio>();
 
         _phaseLength = _gameTimer.lengthOfGame / 3;
         StartCoroutine(StartStormyWeather());

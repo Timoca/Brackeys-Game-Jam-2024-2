@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _RunningLeft;
     private bool _RunningRight;
     private bool _Jumping;
-    private bool _isGrounded;
+    public bool _isGrounded;
 
     private Rigidbody rb;
     private GameTimer _gameTimer;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LightningAudio : MonoBehaviour
+public class LighningAudio : MonoBehaviour
 {
     [SerializeField] private AudioClip lightningSound;
     private AudioSource _audioSource;
@@ -15,3 +15,4 @@ public class LightningAudio : MonoBehaviour
         _audioSource.PlayOneShot(lightningSound);
     }
 }
+

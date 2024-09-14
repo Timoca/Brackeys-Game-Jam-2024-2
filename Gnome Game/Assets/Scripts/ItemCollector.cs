@@ -4,6 +4,7 @@ public class ItemCollector : MonoBehaviour
 {
     private CollectibleSpawner _collectibleSpawner;
     private ScoreSystem _scoreSystem;
+    private WheelbarrowAudio _wheelbarrowAudio;
 
     private bool _HasAddedScore = false;
 
@@ -11,6 +12,7 @@ public class ItemCollector : MonoBehaviour
     {
         _collectibleSpawner = FindAnyObjectByType<CollectibleSpawner>();
         _scoreSystem = FindAnyObjectByType<ScoreSystem>();
+        _wheelbarrowAudio = FindAnyObjectByType<WheelbarrowAudio>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -20,6 +22,7 @@ public class ItemCollector : MonoBehaviour
             if (item.objectTag == other.tag && !_HasAddedScore)
             {
                 _scoreSystem.AddScore(item.score);
+                _wheelbarrowAudio.PlayCollectingSound();
                 Destroy(other.gameObject);
                 _HasAddedScore = true;
             }
