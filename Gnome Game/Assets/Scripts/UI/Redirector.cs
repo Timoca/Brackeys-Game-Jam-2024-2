@@ -22,4 +22,9 @@ public class Redirector : MonoBehaviour
     {
         SceneManager.LoadScene("HighScores");
     }
+
+    public void LoadTutorialScene()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
 }

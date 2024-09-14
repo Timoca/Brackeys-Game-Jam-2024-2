@@ -19,8 +19,6 @@ public class ItemCollector : MonoBehaviour
         {
             if (item.objectTag == other.tag && !_HasAddedScore)
             {
-                Debug.Log("Item collected: " + item.objectTag);
-                Debug.Log("Score: " + item.score);
                 _scoreSystem.AddScore(item.score);
                 Destroy(other.gameObject);
                 _HasAddedScore = true;
