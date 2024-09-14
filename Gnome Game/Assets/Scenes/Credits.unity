@@ -1176,7 +1176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Art: Mike Veekens'
+  m_text: 'Artist: Mike Veekens'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 69b5b32bd82657249ae9c6b1854f89b3, type: 2}
   m_sharedMaterial: {fileID: -2763365595336126438, guid: 69b5b32bd82657249ae9c6b1854f89b3, type: 2}

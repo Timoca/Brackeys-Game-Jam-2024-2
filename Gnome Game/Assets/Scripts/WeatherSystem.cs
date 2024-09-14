@@ -8,6 +8,7 @@ public class WeatherSystem : MonoBehaviour
     [SerializeField] float _maxBackgroundDimmerAlpha = 1f;
     [SerializeField] ParticleSystem _windParticlesBack;
     [SerializeField] ParticleSystem _windParticlesFront;
+    [SerializeField] GameObject _rainParticlesParent;
     [SerializeField] RawImage _backgroundDimmer;
     [SerializeField] Light _pointLight;
     [SerializeField] Light _lightningLight;
@@ -15,6 +16,7 @@ public class WeatherSystem : MonoBehaviour
     private CameraMovement _cameraMovement;
     private CollectibleSpawner _collectibleSpawner;
     private LighningAudio _lightningAudio;
+    private RainAudio _rainAudio;
     private int _phaseLength;
     private bool _lightningStarted = false;
     private float _elapsedTime = 0f;
@@ -24,6 +26,7 @@ public class WeatherSystem : MonoBehaviour
         _cameraMovement = FindAnyObjectByType<CameraMovement>();
         _collectibleSpawner = GetComponent<CollectibleSpawner>();
         _lightningAudio = FindAnyObjectByType<LighningAudio>();
+        _rainAudio = FindAnyObjectByType<RainAudio>();
 
         _phaseLength = _gameTimer.lengthOfGame / 3;
         StartCoroutine(StartStormyWeather());
@@ -36,8 +39,15 @@ public class WeatherSystem : MonoBehaviour
         if (_gameTimer.gameEnded && !_lightningStarted)
         {
             StartCoroutine(LightningEffect(3f));
+            MakeItRain();
             _lightningStarted = true;
         }
+    }
+
+    private void MakeItRain()
+    {
+        _rainAudio.PlayRainSound();
+        _rainParticlesParent.SetActive(true);
     }
 
     private void IncreaseDarkness()
