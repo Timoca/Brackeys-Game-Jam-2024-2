@@ -1104,7 +1104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 331.6}
+  m_AnchoredPosition: {x: 0, y: 304.94}
   m_SizeDelta: {x: 1400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1701451562
@@ -1127,11 +1127,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"The gnomes moved quickly through the quiet forest, aware that time was
-    slipping away. A great storm was approaching, and the air hung heavy with its
-    promise. The winds were still gentle, but the clouds on the horizon warned of
-    what was to come. Now, in the calm before the storm, they needed to gather as
-    much food as possible."'
+  m_text: '"The Kabouter felt that a storm was approaching. The winds were still
+    gentle, but clouds in the distance were a clear sign of what was to come. Now,
+    in this moment of calm before the storm, he needed to gather as much food as
+    possible."'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 69b5b32bd82657249ae9c6b1854f89b3, type: 2}
   m_sharedMaterial: {fileID: -2763365595336126438, guid: 69b5b32bd82657249ae9c6b1854f89b3, type: 2}
